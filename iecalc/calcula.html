@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html >
+<html>
+	<head>
+	   <title>Ing. Economica - Calculador con JS</title>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,shrink-to-fit=no">
+		<meta NAME="DESCRIPTION" CONTENT="Calculadora de prestamos e inversiones">
+		<meta NAME="KEYWORDS" CONTENT="Calculadora financiera">
+		<meta NAME="AUTHOR" CONTENT="Francisco Martinez Brizuela">
+		<link href="calcula.css" rel="stylesheet" media="screen">
+	<!-- Programa name.html     -->
+		
+		<style>
+		
+		</style>
+	</head>
+	<body>
+	<div id="containermain">
+		<h1>Calculadora de Ingeniería Económica</h1>
+		<div class="box2">	
+			<label class="etiq3">Opciones: </label>
+			<label for="rbinversion" class="etiq2">
+				Inversión: <input type="radio" id="rbinversion" name="opcion" value="inversion" class="rbtn" 
+				onclick="objCalcula.setInvOprestamo()"/></label>
+			<label for="rbprestamo" class="etiq2">
+				Prestamo: <input type="radio" id="rbprestamo" name="opcion" value="prestamo"  class="rbtn" checked
+				onclick="objCalcula.setInvOprestamo()" /></label>
+		</div>
+
+		<div class="box1">
+			<p id="lbvalinicio" for="txvalinicio" class="etiq">Monto Prestamo($): </p>
+			<input type="number" id="txvalinicio"  class="datos" value="" />
+		</div>
+		<div class="box1">
+			<p for="txinteresanual" class="etiq">Interes Anual(%): </p>
+			<input type="number" id="txinteresanual"  class="datos" value="" />
+		</div>
+
+		<div class="box1">
+			<p for="txperiodos" class="etiq">Periodos: </p>
+			<input type="number" id="txperiodos"  class="datos" value="" />
+		</div>
+		<div class="box1">
+			<p id="lbvalfinal" for="txvalfinal" class="etiq">Pago por Periodo($): </p>
+			<input type="text" id="txvalfinal"  class="datos" value="" />
+		</div>
+
+		<div class="box1">		
+			<input type="button" value="Calcular" id="btcalcular" onclick="objCalcula.btncalcular_click()"
+				class="botones" />
+		</div>
+		<div class="box1">
+			<input type="button" value="Detalle" id="btdetalle" onclick="objCalcula.btndetalle_click()"
+				class="botones"  />
+		</div>
+
+		<div class="box1">
+			<p for="txmensajeerror" class="etiq">Mensaje de Error: </p>
+			<input type="text" id="txmensajeerror"  class="merr" value="" />
+		</div>
+	</div>
+		<br>
+		<br>
+		<div id=containertable>
+			<table id="tabladetalle">
+				<tr>
+					<th>No.</th>
+					<th>Balance($)</th>
+					<th>Principal($)</th>
+					<th>Interes(%)</th>
+					<th>Pago($)</th>
+				</tr>
+			</table>
+		</div>
+		
+		<script  src="FuncionesFinancieras.js" ></script>
+		<script src="calcula.js"></script>
+	</body>
+</html>

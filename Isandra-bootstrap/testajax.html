@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Prueba ajax</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,shrink-to-fit=no">
+    <script>
+        var objIsandra = {};
+        (function(obj) {
+
+        // Funcion que usara ajax para ejecutar las clases que pasaran datos
+        // Cuando leemos, recibimos los datoss en formato JSON
+        // Parametros: url = dirección en el server a ejecutar
+        //             callback = función que se ejecutara al terminar para procesar la respuesta
+        //             postData = datos a enviar con un POST, en caso de no querer un post, debe omitirse
+        // Ejemplos: Para llamar con GET:  loadurs(url, callback);
+        //				Si llamamos con GET y queremos enviar parametros, estos deben ir en el url en la forma:
+        //				url+?par1=val1&par2=val2  Ej: "demo_get2.asp?fname=Henry&lname=Ford"
+        //           Para llamar con POST: loadurs(url, callback, postData); donde postData debe estar en formato JSON
+        //				Ej:  {"idPer":"1","Organiza":"ORACLE","NomAP":"Aguilar","NomAM":"De la rosa","Nom1":"Oscar","Nom2":""}
+        //				Nota: si queremos mandar texto, o XML hay que cambiar el Content-type en el setRequestHeader.
+        obj.loadurls = function(url, callback, postData) {
+            var xmlhttp = new XMLHttpRequest();
+            var metodo = (postData) ? "POST" : "GET";
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    callback(xmlhttp.responseText);
+                }
+            }
+            xmlhttp.open(metodo, url, true);
+            if (metodo == "POST") {
+                xmlhttp.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+                xmlhttp.setRequestHeader("Content-length", postData.length);
+                xmlhttp.setRequestHeader("Connection", "close");
+            }
+            xmlhttp.send(postData);
+        }
+      })(objIsandra);
+    </script>
+  </head>
+<body>
+
+<h2>The XMLHttpRequest Object</h2>
+
+<button type="button" onclick="loadDoc()">Request data</button>
+
+<p>Click the button to get the file productos.txt.</p>
+
+<p id="demo"></p>
+
+<script>
+  var url = "http://isandra.orgfree.com/productos.txt";
+  function convTxt2JSON(datos){
+    document.getElementById("demo").innerHTML = datos;
+    var texto = '{"Prods":' + datos + '}';
+    objIsandra = JSON.parse(texto);
+    console.log(objIsandra);
+  }
+function loadDoc() {
+  objIsandra.loadurls(url, convTxt2JSON);
+}
+</script>
+
+</body>
+</html>

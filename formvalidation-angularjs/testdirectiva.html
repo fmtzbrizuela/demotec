@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html ng-app="TestComponent">
+  <head>
+    <meta charset="utf-8">
+	<title>Prueba de directiva de usuario</title>
+    <script src="D:\Coursera\AngularJS\angular-1.6.6/angular.js"></script>
+	<style>
+		body {font-size: 1.2em;}
+		input {font-size: 24px;  margin-bottom: 10px;}
+		button {font-size: 24px;}
+		.ng-touched.ng-valid {border: 2px green solid;}
+		.ng-touched.ng-invalid {border: 2px red solid;}
+		#info {margin-top: 20px;}
+		input {display: inline-block; width: 40%;}
+		.finput {border: 1px solid black; height: 50px;}
+		div.finput p, div.finput input {margin: 0; }
+	</style>
+	<script>
+		angular.module('TestComponent', [])
+//		.controller('testDirectivaCtl', testDirectivaCtl)
+		.directive('validaCampo', function() {
+						var ddo = {template: '<div class="finput"> ' +
+					'<input type="{{tipo}}" name="{{name}}" placeholder="Pick a {{name}}" ' +
+					  'ng-model="reg.user.username" ' +
+					  'required	  minlength="{{minlen}}"	  ng-maxlength="{{maxlen}}"> ' +
+					  '{{ name }} ' +
+					  '<p ng-show="(regForm.{{name}}.$error.minlength || regForm.{{name}}.$error.required ' +
+						') && regForm.{{name}}.$touched"> ' +
+						'{{name}} must be at least 4 characters long ' +
+					  '</p> ' +
+					  '<p ng-show="regForm.{{name}}.$error.maxlength && regForm.{{name}}.$touched"> ' +
+						'{{name}} must not be longer than 10 characters ' +
+					  '</p>	  </div> ',
+					  scope: {
+						tipo: '@tipo', name: '@name', required: '@required', minlen: '@minlen', maxlen: '@maxlen'
+					 }
+			};
+			console.log(ddo);
+			return ddo;
+		});
+
+		testDirectivaCtl.$inject = ['$scope'];		
+		function testDirectivaCtl($scope){
+		var ctrl = this;
+
+		console.log(this);
+		}
+	</script>
+
+	</head>
+<body ">
+<h1>Hola fmb</h1>
+<form name="regForm" novalidate>
+<valida-campo tipo="text" name="fmb" required="si" minlen = "2" maxlen="8"> </valida-campo>
+<valida-campo tipo="text" name="mtz" required="no" minlen = "4" maxlen="6"> </valida-campo>
+</form>
+</body>

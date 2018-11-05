@@ -1,0 +1,181 @@
+﻿<!DOCTYPE html >
+<html>
+	<head>
+	   <title>Mantenimiento a Productos</title>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,shrink-to-fit=no">
+		<meta NAME="DESCRIPTION" CONTENT="Mantenimiento a Productos.txt">
+		<meta NAME="KEYWORDS" CONTENT="CRUD">
+		<meta NAME="AUTHOR" CONTENT="Francisco Martinez Brizuela">
+	<!-- Programa name.html     -->
+		<script>
+			// Checa si soporte de File APIs
+			if (window.File && window.FileReader && window.FileList && window.Blob) {
+				// alert('File API supported.!');
+				} else {
+				alert('The File APIs are not fully supported in this browser.');
+				}
+
+			var objProductos = {};
+			var objIsandra = {};
+			// Url de donde se carga via ajax el archivo de productos.txt que tiene la descripción de productos
+			// Recuerde: se debe cargar del mismo host del que se cargo la página.
+			// objIsandra.urlProductos = 'http://isandra.orgfree.com/productos.txt';
+			objIsandra.urlProductos = 'http://localhost/isandra/productos.txt';
+
+			// Url de programa que hace el Uploadimage
+			// objIsandra.urlUploadimage = "http://isandra.orgfree.com/Uploadimage.php";
+			objIsandra.urlUploadimage = "http://localhost/Uploadimage/api/Uploadimage";
+			
+			// A continuación se le asociaran al objeto objIsandra todas las funciones que se requieren.
+			(function(obj){
+				// Funcion que usara ajax para ejecutar las clases que pasaran datos
+				// Cuando leemos, recibimos los datoss en formato JSON
+				// Parametros: url = dirección en el server a ejecutar
+				//             callback = función que se ejecutara al terminar para procesar la respuesta
+				//             postData = datos a enviar con un POST, en caso de no querer un post, debe omitirse
+				// Ejemplos: Para llamar con GET:  loadurs(url, callback);
+				//				Si llamamos con GET y queremos enviar parametros, estos deben ir en el url en la forma:
+				//				url+?par1=val1&par2=val2  Ej: "demo_get2.asp?fname=Henry&lname=Ford"
+				//           Para llamar con POST: loadurs(url, callback, postData); donde postData debe estar en formato JSON
+				//				Ej:  {"idPer":"1","Organiza":"ORACLE","NomAP":"Aguilar","NomAM":"De la rosa","Nom1":"Oscar","Nom2":""}
+				//				Nota: si queremos mandar texto, o XML hay que cambiar el Content-type en el setRequestHeader.
+			obj.loadurls = function(url, callback, postData) {
+					var xmlhttp = new XMLHttpRequest();
+					var metodo = (postData) ? "POST" : "GET";
+					xmlhttp.onreadystatechange = function () {
+						if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+							callback(xmlhttp.responseText);
+						}
+					}
+					xmlhttp.open(metodo, url, true);
+					if (metodo == "POST") {
+						xmlhttp.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+						xmlhttp.setRequestHeader("Content-length", postData.length);
+						xmlhttp.setRequestHeader("Connection", "close");
+					}
+					xmlhttp.send(postData);
+				}
+				// función de callback al llamado a Ajax, que convierte texto a objeto
+			obj.convTxt2JSON = function(datos){
+					var texto = '{"Prods":' + datos + '}';
+					objProductos = JSON.parse(texto);
+				}
+
+			obj.formaListProds = function(){
+				var select = document.getElementById("listprods");
+    			select.options.length = 0;  // Limpia lista de prods
+
+				if (objProductos.Prods == undefined || objProductos.Prods == null){
+					objIsandra.showIconDelay();
+					setTimeout("objIsandra.formaListProds()", 500);  // Checa cada medio segundo
+					return;
+				}
+				document.getElementById('cuerpo').innerHTML = '<div></div>';    // limpia icono de delay
+    			for (i = 0; i < objProductos.Prods.length; i++) {
+        			var opt = document.createElement('option');
+        			opt.value = objProductos.Prods[i].nombre;
+        			opt.innerHTML = (i+1).toString() + ': ' + objProductos.Prods[i].nombre;
+        			select.appendChild(opt);
+    			}
+			}
+
+			obj.showIconDelay = function(){
+				document.getElementById('cuerpo').innerHTML = 
+				'<div class="row"><img src="imagenes/ajax-loader.gif" width="100" height="100" style="display: block; margin: auto"></div>';
+			}
+
+				// Se ejecuta al seleccionar un producto de la lista
+				// Despliega el detalle
+			obj.onchangeListProds = function() {
+					var ixProd = document.getElementById("listprods").options.selectedIndex;
+					var nameProd = document.getElementById("listprods").options[ixProd].value;
+					document.getElementById('nombre').value = objProductos.Prods[ixProd].nombre;
+					document.getElementById('descripcion').value = objProductos.Prods[ixProd].desc;
+					document.getElementById('precio').value = objProductos.Prods[ixProd].precio;
+					document.getElementById('imagen').value = objProductos.Prods[ixProd].Img;
+					document.getElementById('imgprod').src = objProductos.Prods[ixProd].Img;
+					document.getElementById('posicion').value = (ixProd+1).toString();
+
+			}
+
+			obj.funupload = function(event) {
+					var preview = document.getElementById("imgprod");
+					preview.src = URL.createObjectURL(event.target.files[0]);
+					var photo = document.getElementById("fileimage");
+					var file = photo.files[0];
+
+					// create a form 
+					var form = new FormData();
+					form.append("name", "image1");
+					form.append("photo", file);
+
+					// send via XHR - look ma, no headers being set!
+					var xhr = new XMLHttpRequest();
+					xhr.onload = function() {
+    				console.log("Upload complete.");
+					};
+					xhr.onreadystatechange = function () {
+						if (xhr.readyState == 4 && xhr.status == 200 || xhr.status == 201) {
+							console.log(xhr.responseText);
+						}
+					}
+					xhr.open("post", objIsandra.urlUploadimage, true);
+					xhr.send(form);
+
+					console.log("File name: " + file.name);
+					console.log("File size: " + file.size);
+					console.log("File type: " + file.type);
+					return false;
+				};
+
+			})(objIsandra);
+			objIsandra.loadurls(objIsandra.urlProductos, objIsandra.convTxt2JSON);			// Carga archivo de Productos.txt
+		</script>
+
+		<style>
+		*{box-sizing: border-box;}
+		#listprods{width: 40%;}
+		.etiq, .datos{display: block;}
+		label{width: 8%;}
+		.datos{width: 40%;}
+		</style>
+	</head>
+	<body onload="objIsandra.formaListProds()">
+		<h1>Administración de Productos</h1>
+		<label for="listprods">Seleccione un Producto</label>
+		<div id="boxprods">
+			<select id="listprods" size="16" onchange="objIsandra.onchangeListProds()">
+				<option value="Todas" selected>Productos</option>
+			</select>
+		</div>
+		<div>
+			<button>Actualizar</button>
+			<button>Alta</button>
+			<button>Eliminar</button>
+		</div>
+		<div id="cuerpo"></div>
+		<div id="detalle">
+			<label for="nombre"  class="etiq">Nombre: </label>
+			<input type="text" id="nombre"  class="datos" value="" >
+			<label for="descripcion"  class="etiq">Descripción: </label>
+			<textarea id="descripcion"  rows="3" class="datos" ></textarea>
+			<label for="precio"  class="etiq">Precio: </label>
+			<input type="text" id="precio"  class="datos" value="" >
+			<label for="imagen"  class="etiq">Imagen: </label>
+			<input type="text" id="imagen"  class="datos" value="" >
+			<label for="posicion"  class="etiq">Posición
+			<input type="text" id="posicion"  class="datos" value="" ></label>
+			<img  id="imgprod" height="240" width="320" class="img-rounded" src="http://via.placeholder.com/320x240">
+		</div>
+<!--		<form name="form1" method="post" enctype="multipart/form-data" action="http://localhost/Uploadimage/api/Uploadimage"> -->
+			<div>
+				<label for="image1">Archivo de Imagen</label>
+				<input id="fileimage" name="image1" type="file" accept="image/*" onchange="objIsandra.funupload(event)">
+			</div>
+			<div>
+				<input type="submit" value="Cargar Imagen" />
+			</div>
+<!--		</form>  -->
+	</body>
+</html>

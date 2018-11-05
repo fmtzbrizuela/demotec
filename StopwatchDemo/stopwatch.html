@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html >
+<html>
+	<head>
+	   <title>Stopwatch By fmb</title>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,shrink-to-fit=no">
+		<meta NAME="DESCRIPTION" CONTENT="Aplicación de Stopwatch">
+		<meta NAME="KEYWORDS" CONTENT="Stopwatch">
+		<meta NAME="AUTHOR" CONTENT="Francisco Martinez Brizuela">
+
+	<!-- Index.html     -->
+		<script  type="text/javascript" >
+			var fmbGame = {};
+			(function(fmbGame) {
+				fmbGame.initialTime = 0;
+				fmbGame.acumuladoTime = 0;
+				fmbGame.TimerId = 0;
+
+
+				fmbGame.Start = function(){
+					fmbGame.initialTime = new Date().getTime();
+					fmbGame.TimerId = setInterval(function(){
+						let actualtime = new Date().getTime();
+						let elapsedtime = actualtime - fmbGame.initialTime;
+						fmbGame.acumuladoTime += elapsedtime;
+						fmbGame.initialTime = actualtime;
+						
+						document.getElementById('displayarea1').innerHTML = (fmbGame.acumuladoTime / 1000).toFixed(2);
+						document.getElementById('displayarea2').innerHTML = ' (segs)  -> ';
+						document.getElementById('displayarea3').innerHTML = fmbGame.formaHMS();
+						document.getElementById('displayarea4').innerHTML = ' (hh:mm:ss)';
+					}, 1000);
+
+				};
+
+				fmbGame.Stop = function() {
+					clearInterval(fmbGame.TimerId);
+					fmbGame.TimerId = 0;
+				}
+
+				fmbGame.StartStop = function() {
+					if(fmbGame.TimerId == 0)
+						fmbGame.Start();
+					else
+						fmbGame.Stop();
+				}
+
+				fmbGame.displayRecordArea = function() {
+					document.getElementById("ptarea").innerHTML += '<br>' + (fmbGame.acumuladoTime / 1000).toFixed(2) +
+					' (segs)  -> ' + fmbGame.formaHMS() + ' (hh:mm:ss)';
+				}
+
+				fmbGame.Reset = function() {
+					fmbGame.Stop();
+					document.getElementById("ptarea").innerHTML = '&nbsp;';
+					document.getElementById('displayarea1').innerHTML = '&nbsp;';
+					document.getElementById('displayarea2').innerHTML = '&nbsp;';
+					document.getElementById('displayarea3').innerHTML = '&nbsp;';
+					document.getElementById('displayarea4').innerHTML = '&nbsp;';
+					fmbGame.acumuladoTime = 0;
+				}
+
+				fmbGame.formaHMS = function() {
+					let acumuladoT = fmbGame.acumuladoTime /1000;
+					let minutos = Math.trunc(acumuladoT / 60);
+					let horas = Math.trunc(minutos / 60);
+					if (horas > 0) minutos = minutos - (horas * 60);
+					let segundos = acumuladoT % 60;
+					
+					return horas.toFixed(0) + ':' + minutos.toFixed(0) + ':' + segundos.toFixed(0);
+				}
+			})(fmbGame);
+			var fmb
+		</script>
+		
+		<style>
+			#displayarea p { margin-left: 50px; display: inline;}
+			#displayarea1, #displayarea3 {font-size: 3em;}
+			h3 { font-size: 1em;}
+		</style>
+	</head>
+	<body>
+		<div id="container">
+			<h1>Stopwatch by fmb</h1>
+			<div id="displayarea">
+				<p id="displayarea1">&nbsp;</p><p id="displayarea2">&nbsp;</p><p id="displayarea3">&nbsp;</p>
+				<p id="displayarea4">&nbsp;</p>
+			</div>
+			<button id="btnss" onclick="fmbGame.StartStop()" class="btns">Start/Stop</button>
+			<button id="btnreset" onclick="fmbGame.Reset()" class="btns">Reset</button>
+			<button id="btnrt" onclick="fmbGame.displayRecordArea()" class="btns">Record Time</button>
+			<h2>Past Times</h2>
+			<p id="ptarea">&nbsp;</p>
+		</div>
+	</body>
+</html>

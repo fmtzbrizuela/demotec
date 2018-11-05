@@ -1,0 +1,60 @@
+﻿*{margin : 0px; padding : 0px; width: 600px; }
+h1 { font: bold 20px verdana, sans-serif; text-align:center;}
+h2 { font: bold 14px verdana, sans-serif; text-align:left;}
+header, section, footer, aside, nav, article, figure, figcaption, hgroup{ display: block; }
+body { text-align: left; font-family:  Arial;  font-size:10pt;}
+
+#sec1, #secper, #secorg { margin-left : 2%; background-color: #f1f0ee; border: 1px solid #c9c3ba;}
+#menu1, #head1 {margin-left : 2%; }
+.botones { width : 17%; height : 20px; margin-right : 5% ; background-color: #dddddd;}
+#artleft { width:35%; float:left;  height:300px; }
+#pad1 { width:4%; float:left;  height:300px; }
+#artright { width:55%; float:left;  height:300px; }
+#boxleft {width:100%; height:262px;background-color:#eeeeee; border: 2px solid #999999; }
+#boxright {width:100%; height:264px;background-color:#eeeeee; border: 2px solid #999999; }
+#labelcont1 {height:15px; display: inline-block;margin-left: 120px; width: 200px;}
+#labelcont2 {height:15px; width: 120px; display: inline-block; width: 120px;}
+.labelorg {height: 18px; width: 120px;}
+.rbtn, .rbtnc, .rbtno {width: 25px; height:15px;}
+.etiq {width: 10%;  font-family:  Arial; font-size:8pt; color:#191975; padding-top: 2px; text-align: right; margin-top: 2%;
+		float:left;}
+.etiq1 {width: 10%;  font-family:  Arial; font-size:8pt; color:#191975; padding-top: 5px; text-align: right;
+		float:left; }
+.etiqorg, .etiqper {width: 10%;  font-family:  Arial; font-size:8pt; color:#191975; padding-top: 5px; text-align: right;
+		display: inline-block; }
+.datos {padding-top: 2px; margin-top: 1%; float:left; }
+.datos1 {padding-top: 2px; margin-top: 1%; float:left;
+         width:38%;  height:20px; }
+.datosorg, .datosper {padding-top: 2px; margin-top: 1%;  display: inline-block;}
+#botonper2, #botonorg2 {margin-left: 70%; height:40px;}
+
+#listorg {  width:95%; padding: 5px; margin: 5px; font: bold 12px verdana, sans-serif;}
+#listper {  width:95%; padding: 5px; margin: 5px; font: bold 12px verdana, sans-serif;}
+#nombre { width:50%;  height:20px;  }
+#org { width:26%;   height:20px; }
+#tel1, #tel3, #tel4, #fax { width:16%;   height:20px;  }
+#tel2 {width: 7%; height:20px;  }
+#mail { width:60%;  height:20px;  }
+#puesto { width:87%;  height:20px;   }
+#coment { width:87%;  height:20px;  }
+#pad2, #pad3 { clear: both; }
+.rowc2 { width:38%;  height:20px;  }
+.rowc1 { width:88%;  height:20px;  }
+.datosocultos {display:none;}
+
+ul#tabs { list-style-type: none; margin: 10px 0 0 0; padding: 0 0 0.3em 0;  }
+ul#tabs li { display: inline; }
+ul#tabs li a { color: #42454a; background-color: #dedbde; border: 1px solid #c9c3ba; border-bottom: none; padding: 0.3em; text-decoration: none; }
+ul#tabs li a:hover, ul#tabs li a.activo { background-color: #f1f0ee; }
+ul#tabs li a.selected { color: #000; background-color: #f1f0ee; font-weight: bold; padding: 0.7em 0.3em 0.38em 0.3em; }
+section.tabContent { border: 1px solid #c9c3ba; padding: 0.5em; background-color: #f1f0ee; }
+section.tabContent.hide { display: none; }
+
+.validabox {border: 1px solid black; height: 40px; width: 50%;}
+div.validabox p, div.validabox input {margin: 0; }
+.validamen {color: red; font-size:8pt;}
+.validaetiq {width: 20%;  font-family:  Arial; font-size:8pt; color:#191975; padding-top: 5px; text-align: right;
+		display: inline-block;}
+.validarowc2 { width:76%;  height:20px;  }
+.ng-touched.ng-valid {border: 2px green solid;}
+.ng-touched.ng-invalid {border: 2px red solid;}

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Registro de Juegos - usando clases</title>
+    <!-- <link href="juegos.css" rel="stylesheet" />   -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="DESCRIPTION" content="Registro de juegos">
+    <meta name="AUTHOR" content="Francisco Martinez Brizuela">
+    <!-- Programa logDeJuegos.html     -->
+    
+	<style>
+        body{ text-align: center;}
+        input{width: 8%;}
+        .inames{text-align: center;}
+        .valnum, .valtit{text-align: right;}
+        .valtit{width: 4%;}
+        .historia{text-align: left; text-decoration: underline; 
+            display: inline-block; width: 25%; float: left;}
+        .historia:hover{cursor: pointer;}
+	</style>
+	
+</head>
+<body>
+<noscript><h1>¡Alerta! Su Navegador no soporta JavaScript.</h1><h2>Esta página no funcionará correctamente, (consulte: http://www.enable-javascript.com/es/)</h2></noscript>
+<header>
+<h1>Registro de Juegos</h1>
+</header>
+<p>Opcionalmente entre los siguientes datos por cada jugador:  Costo del pozo:
+ <input type="number" id="ipozo" class="valtit" value=""> costo por juego: <input type="number" id="ipartida" class="valtit" value=""></p>
+ <h3>Entre los nombres de jugadores. Para iniciar el registro de una partida, presione: ==> 
+ <input type="button" value="Inicio" id="binicio" onclick="programaLogJuego.IniciaJuego()" class="botones" ></h3>
+ 
+ <input type="text" id="f0c0" class="inames" value="Jugadores">
+ <input type="text" id="f0c1" class="inames" value="6 Cartas">
+ <input type="text" id="f0c2" class="inames" value="7 Cartas">
+ <input type="text" id="f0c3" class="inames" value="8 Cartas">
+ <input type="text" id="f0c4" class="inames" value="9 Cartas">
+ <input type="text" id="f0c5" class="inames" value="10 cartas">
+ <input type="text" id="f0c6" class="inames" value="11 Cartas">
+ <input type="text" id="f0c7" class="inames" value="12 Cartas">
+ <input type="text" id="f0c8" class="inames" value="Totales">
+ <input type="text" id="f0c9" class="inames" value="Total $"><br />
+ <input type="text" id="f1c0" class="valtxt" value="" placeholder="Nombre">
+ <input type="number" id="f1c1" class="valnum" value="">
+ <input type="number" id="f1c2" class="valnum" value="">
+ <input type="number" id="f1c3" class="valnum" value="">
+ <input type="number" id="f1c4" class="valnum" value="">
+ <input type="number" id="f1c5" class="valnum" value="">
+ <input type="number" id="f1c6" class="valnum" value="">
+ <input type="number" id="f1c7" class="valnum" value="">
+ <input type="number" id="f1c8" class="valnum" value="">
+ <input type="number" id="f1c9" class="valnum" value=""><br />
+ <input type="text" id="f2c0" class="valtxt" value="" placeholder="Nombre">
+ <input type="number" id="f2c1" class="valnum" value="">
+ <input type="number" id="f2c2" class="valnum" value="">
+ <input type="number" id="f2c3" class="valnum" value="">
+ <input type="number" id="f2c4" class="valnum" value="">
+ <input type="number" id="f2c5" class="valnum" value="">
+ <input type="number" id="f2c6" class="valnum" value="">
+ <input type="number" id="f2c7" class="valnum" value="">
+ <input type="number" id="f2c8" class="valnum" value="">
+ <input type="number" id="f2c9" class="valnum" value=""><br />
+ <input type="text" id="f3c0" class="valtxt" value="" placeholder="Nombre">
+ <input type="number" id="f3c1" class="valnum" value="">
+ <input type="number" id="f3c2" class="valnum" value="">
+ <input type="number" id="f3c3" class="valnum" value="">
+ <input type="number" id="f3c4" class="valnum" value="">
+ <input type="number" id="f3c5" class="valnum" value="">
+ <input type="number" id="f3c6" class="valnum" value="">
+ <input type="number" id="f3c7" class="valnum" value="">
+ <input type="number" id="f3c8" class="valnum" value="">
+ <input type="number" id="f3c9" class="valnum" value=""><br />
+ <input type="text" id="f4c0" class="valtxt" value="" placeholder="Nombre">
+ <input type="number" id="f4c1" class="valnum" value="">
+ <input type="number" id="f4c2" class="valnum" value="">
+ <input type="number" id="f4c3" class="valnum" value="">
+ <input type="number" id="f4c4" class="valnum" value="">
+ <input type="number" id="f4c5" class="valnum" value="">
+ <input type="number" id="f4c6" class="valnum" value="">
+ <input type="number" id="f4c7" class="valnum" value="">
+ <input type="number" id="f4c8" class="valnum" value="">
+ <input type="number" id="f4c9" class="valnum" value=""><br />
+ <input type="text" id="f5c0" class="valtxt" value="" placeholder="Nombre">
+ <input type="number" id="f5c1" class="valnum" value="">
+ <input type="number" id="f5c2" class="valnum" value="">
+ <input type="number" id="f5c3" class="valnum" value="">
+ <input type="number" id="f5c4" class="valnum" value="">
+ <input type="number" id="f5c5" class="valnum" value="">
+ <input type="number" id="f5c6" class="valnum" value="">
+ <input type="number" id="f5c7" class="valnum" value="">
+ <input type="number" id="f5c8" class="valnum" value="">
+ <input type="number" id="f5c9" class="valnum" value=""><br />
+ <input type="text" id="f6c0" class="valtxt" value="" placeholder="Nombre">
+ <input type="number" id="f6c1" class="valnum" value="">
+ <input type="number" id="f6c2" class="valnum" value="">
+ <input type="number" id="f6c3" class="valnum" value="">
+ <input type="number" id="f6c4" class="valnum" value="">
+ <input type="number" id="f6c5" class="valnum" value="">
+ <input type="number" id="f6c6" class="valnum" value="">
+ <input type="number" id="f6c7" class="valnum" value="">
+ <input type="number" id="f6c8" class="valnum" value="">
+ <input type="number" id="f6c9" class="valnum" value=""><br />
+ <input type="text" id="f7c0" class="valtxt" value="" placeholder="Nombre">
+ <input type="number" id="f7c1" class="valnum" value="">
+ <input type="number" id="f7c2" class="valnum" value="">
+ <input type="number" id="f7c3" class="valnum" value="">
+ <input type="number" id="f7c4" class="valnum" value="">
+ <input type="number" id="f7c5" class="valnum" value="">
+ <input type="number" id="f7c6" class="valnum" value="">
+ <input type="number" id="f7c7" class="valnum" value="">
+ <input type="number" id="f7c8" class="valnum" value="">
+ <input type="number" id="f7c9" class="valnum" value=""><br />
+ <input type="text" id="f8c0" class="valtxt" value="" placeholder="Nombre">
+ <input type="number" id="f8c1" class="valnum" value="">
+ <input type="number" id="f8c2" class="valnum" value="">
+ <input type="number" id="f8c3" class="valnum" value="">
+ <input type="number" id="f8c4" class="valnum" value="">
+ <input type="number" id="f8c5" class="valnum" value="">
+ <input type="number" id="f8c6" class="valnum" value="">
+ <input type="number" id="f8c7" class="valnum" value="">
+ <input type="number" id="f8c8" class="valnum" value="">
+ <input type="number" id="f8c9" class="valnum" value=""><br />
+ <h3>Para cálculo de totales presione: ==> 
+ <input type="button" value="Totales" id="btotales" onclick="programaLogJuego.CalculaTotales()" class="botones" ></h3> 
+ <h4>Histórico de partidas (formato: año-mes-dia horas:minutos) &nbsp;&nbsp;Partida actual: <span id="fechahora"></span></h4>
+ <div id=listhistoria>
+ </div>
+ <script src="./logdejuegos.js">
+ </script>
+ <script>
+    window.onload = iniciaPrograma();
+</script>
+</body>
+</html>

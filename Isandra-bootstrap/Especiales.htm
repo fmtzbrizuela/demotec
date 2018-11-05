@@ -1,0 +1,111 @@
+<!DOCTYPE html >
+<html>
+<head>
+   <title>ISandra - Ricos Postres</title>
+   	<meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<!--	<link rel="stylesheet" href="F:/DATA/Desarrollo/Utilities/bootstrap-3.3.6-dist/css/bootstrap.min.css" >  -->
+		<link rel="stylesheet" href="../libs/bootstrap.min.css" >
+		<link href="protoprod.css" rel="stylesheet" media="screen">
+<!--
+		<script src="F:/DATA/Desarrollo/Utilities/Jquery/jquery-2.1.3.min.js"></script>
+		<script src="F:/DATA/Desarrollo/Utilities/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+-->
+	<META NAME="DESCRIPTION" CONTENT="Muestra de Pasteles y postres para eventos">
+	<META NAME="KEYWORDS" CONTENT="Pasteles,Postres">
+	<META NAME="AUTHOR" CONTENT="Francisco Martinez Brizuela">
+<!-- Programa Especiales.html     -->
+<script  type="text/javascript" >
+function CHcolor(numprog) {
+// Pone el color rojo al num de link que se le indique
+// var links = document.getElementById("navmenu").getElementsByTagName("a");
+var links = document.querySelectorAll("#navmenu a");
+links[numprog].style.color = "red";
+InicializaFotos();
+}
+function CambiaImagen(){
+document.getElementById("Img4").src = document.getElementById("Img3").src
+document.getElementById("Img3").src = fotos[secuencia].src;
+secuencia += 1;
+if (secuencia >= LIMITE) secuencia = 0;
+setTimeout("CambiaImagen()", 5000);  // pone el tiempo para cambiar cada 5 segundos
+return true;
+}
+// esta funcion es llamada en: body style="background-color:#FFFFFF" onload="InicializaFotos()"
+function InicializaFotos() {
+var ix = 0;
+fotos[ix] = new Image(320,240);
+fotos[ix].src = "Imagenes/P-1com.jpg";
+ix = 1;
+fotos[ix] = new Image(320,240);
+fotos[ix].src = "Imagenes/Pprincesa1.jpg";
+ix = 2;
+fotos[ix] = new Image(320,240);
+fotos[ix].src = "Imagenes/P-quequitos.jpg";
+ix = 3;
+fotos[ix] = new Image(320,240);
+fotos[ix].src = "Imagenes/mesa80a.jpg";
+ix = 4;
+fotos[ix] = new Image(320,240);
+fotos[ix].src = "Imagenes/Pblanco.jpg";
+ix = 5;
+fotos[ix] = new Image(320,240);
+fotos[ix].src = "Imagenes/P-1com2.jpg";
+ix = 6;
+fotos[ix] = new Image(320,240);
+fotos[ix].src = "Imagenes/Pboda.jpg";
+CambiaImagen();
+}
+</script>
+</head>
+<body  onload="CHcolor(2)">
+<script language=javascript>
+var fotos = new Array();
+var secuencia = 0;
+LIMITE = 7; // Número de fotos a desplegar
+</script>
+<div class="container">
+<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12  col-xs-12  bordes">
+<header>
+        <p id="tit1"> <a href="index.htm"><img id="img1" alt="Logo" src=Imagenes/pastelillo1.png ></a>ISandra  Ricos Postres </p>
+</header>
+<nav>
+	<ul id="navmenu" class="nav nav-tabs" >
+		<li><a   href="index.htm">INICIO</a> </li>
+		<li><a   href="Productos.htm">PRODUCTOS</a></li>
+		<li><a   href="Especiales.htm">ESPECIALES</a> </li>
+		<li><a   href="Contacto.htm">CONTÁCTO</a></li>
+	</ul>
+</nav>
+</div>
+</div>
+<div class="row">
+			<div class="col-lg-6 col-md-6 col-sm-6  col-xs-12  bordes">
+	<figure id="fig3">
+        <img id="Img3" alt="ISandra" src="Imagenes/Payasito.jpg" />
+	</figure>
+	</div>
+	<div class="col-lg-6 col-md-6 col-sm-6  col-xs-12 bordes">
+	<figure id="fig4">
+	    <img id="Img4" alt="ISandra" src="Imagenes/Payasito.jpg" />
+     </figure>
+		</div>
+
+			<div class="col-lg-12 col-md-12 col-sm-12  col-xs-12  bordes">
+<h4  class="mensaje1"  >Podemos hacer los pasteles y postres de acuerdo a las caracteristicas de su evento, ya sea fiestas infantiles, primera comunión, quince años, etc. <br>Contáctenos y con todo gusto lo atenderemos.</h4><br>
+</div>
+</div>
+
+<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12  col-xs-12  bordes">
+<footer id="pie1">
+<p id="pie1r1">ISandra  Ricos Postres</p>
+<p id="pie1r2">Estamos para servirlos en los telefonos: (81)8358-1387 y (81)1133-2203</p>
+<p id="pie1r3">Monterrey, N.L., México</p>
+</footer>
+</div>
+</div>
+</div>
+</body>
+</html>

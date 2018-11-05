@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html ng-app="TestComponent">
+  <head>
+    <meta charset="utf-8">
+	<title>Prueba de componentes</title>
+    <script src="lib/angular.min.js"></script>
+	<style>
+		body {font-size: 1.2em;}
+		input {font-size: 24px;  margin-bottom: 10px;}
+		button {font-size: 24px;}
+		.ng-touched.ng-valid {border: 2px green solid;}
+		.ng-touched.ng-invalid {border: 2px red solid;}
+		#info {margin-top: 20px;}
+		input {display: inline-block; width: 40%;}
+		.finput {border: 1px solid black; height: 50px;}
+		div.finput p, div.finput input {margin: 0; }
+	</style>
+	<script>
+		angular.module('TestComponent', [])
+		.component('validaCampo', {
+			template: '<div class="finput"> ' +
+					'<input type="{{tipo}}" name="{{$ctrl.name}}" placeholder="Pick a {{$ctrl.name}}" ' +
+					  'ng-model="reg.user.username" ' +
+					  'required	  minlength="{{$ctrl.minlen}}"	  ng-maxlength="{{$ctrl.maxlen}}"> ' +
+
+					  '<p  ng-show="(regForm.{{$ctrl.name}}.$error.minlength || regForm.{{$ctrl.name}}.$error.required) && regForm.{{$ctrl.name}}.$touched"> ' +
+						'{{$ctrl.name}} must be at least 4 characters long ' +
+					  '</p> ' +
+					  '<p ng-show="regForm.{{$ctrl.name}}.$error.maxlength && regForm.{{$ctrl.name}}.$touched"> {{$ctrl.name}} must not be longer than 10 characters ' +
+					  '</p>	  </div> ',
+			controller: testController,
+			bindings: {
+				tipo: '@', name: '@', required: '@', minlen: '@', maxlen: '@'
+			}
+		});
+
+		function testController(){
+		var $ctrl = this;
+		console.log(this);
+		}
+	</script>
+
+	</head>
+<body>
+<h1>Hola fmb</h1>
+<form name="regForm" novalidate>
+<valida-campo tipo="text" name="fmb" required="si" minlen = "2" maxlen="8"> </valida-campo>
+<valida-campo tipo="text" name="Carlos" required="no" minlen = "1" maxlen="5"> </valida-campo>
+</form>
+</body>

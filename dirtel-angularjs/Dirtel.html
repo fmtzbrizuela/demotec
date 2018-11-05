@@ -1,0 +1,189 @@
+﻿<!DOCTYPE html>
+
+<html ng-app="dirtelApp">
+<head>
+    <title>Directorio Telefónico con Angularjs</title>
+    <link href="css/DirTel.css" rel="stylesheet" />
+    <meta charset="utf-8" />
+    <meta name="DESCRIPTION" content="Directorio Telefónico">
+    <meta name="KEYWORDS" content="Directorio, Telefonos, Contactos">
+    <meta name="AUTHOR" content="Francisco Martinez Brizuela">
+    <!-- Programa DirTel_fDir1.html     -->
+    <script src="../libs/angular.min.js"></script>
+    <script src="data/DirOrg.json"></script>
+    <script src="data/DirPer.json"></script>
+    <script src="js/app.js"></script>
+</head>
+<body>
+  <div ng-controller="directoryctl as dirctl">
+        <nav id="menu1">
+          <h1>Directorio Telefónico - fmb</h1>
+        </nav>
+        <header id="head1">
+        	<ul id="tabs">
+              <li ><a  href="#Dir"  ng-click="dirctl.chtab('dir')" ng-class="{activo: dirctl.dirtab}">Directorio</a></li>
+              <li><a href="#Org"    ng-click="dirctl.chtab('org')" ng-class="{activo: dirctl.orgtab}">Organizaciones</a></li>
+              <li><a href="#Per"    ng-click="dirctl.chtab('per')" ng-class="{activo: dirctl.pertab}">Contactos</a></li>
+            </ul>
+        </header>
+        <section id="sec1" class="tabContent" ng-show="dirctl.dirtab">
+            <article id="artleft">
+                <p class="labelorg">&nbsp;</p>
+                <p class="labelorg">Organizaciones</p>
+                <div id="boxleft">
+                    <select id="listorg" size="16">
+                        <option value="Todas" selected  ng-click="dirctl.selectListOrg(-1);">Todas las Organizaciones</option>
+                        <option ng-repeat="org in dirctl.orgs"  ng-click="dirctl.selectListOrg($index);">{{org.Organiza}} - {{$index}}</option>
+                    </select>
+                </div>
+            </article>
+            <div id="pad1">	</div>
+            <article id="artright">
+                <p id="labelcont1">Despliegue personas por:</p>
+                <p id="labelcont2">Contactos</p>
+                <input type="radio" name="sortname" value="first" class="rbtn" />Nombre
+                <input type="radio" name="sortname" value="last" class="rbtn" checked />Apellido
+                <div id="boxright">
+                    <select id="listper" size="16">
+                    <option ng-repeat="per in dirctl.pers" ng-click="dirctl.selectListPer($index)">{{per.fullName}}</option></select>
+                </div>
+            </article>
+            <div id="pad2"></div>
+                <article id="datos1">
+                    <p id="etiqnombre" class="etiq">Nombre: </p>
+                    <input type="text" id="nombre"  class="datos" ng-model="dirctl.per.fullName">
+                    <p id="etiqorg" class="etiq">Organización: </p>
+                    <input type="text" id="org"  class="datos" ng-model="dirctl.per.Organiza">
+                    <p id="etiqtel1" class="etiq">Tel.directo: </p>
+                    <input type="text" id="tel1"  class="datos" ng-model="dirctl.per.TelDirecto">
+                    <p id="etiqtel2" class="etiq">Ext: </p>
+                    <input type="text" id="tel2"  class="datos" ng-model="dirctl.per.Extension">
+                    <p id="etiqtel3" class="etiq">Tel.casa: </p>
+                    <input type="text" id="tel3"  class="datos" ng-model="dirctl.per.TelCasa">
+                    <p id="etiqtel4" class="etiq">Celular: </p>
+                    <input type="text" id="tel4"  class="datos" ng-model="dirctl.per.TelCel">
+                    <p id="etiqmail" class="etiq">Mail: </p>
+                    <input type="text" id="mail"  class="datos" ng-model="dirctl.per.eMail">
+                    <p id="etiqfax" class="etiq">Fax: </p>
+                    <input type="text" id="fax"  class="datos" ng-model="dirctl.per.FaxDirecto">
+                    <p id="etiquesto" class="etiq">Puesto: </p>
+                    <input type="text" id="puesto"  class="datos" ng-model="dirctl.per.Puesto">
+                    <p id="etiqcoment" class="etiq">Comentarios: </p>
+                    <input type="text" id="coment"  class="datos" ng-model="dirctl.per.Comentarios">
+                </article>
+                <div id="pad3"></div>
+</section>
+
+    <section id="secper" class="tabContent" ng-show="dirctl.pertab">
+        <div id="opcontactos">
+            <h1 id="titcontactos1">Actualización de Contactos</h1><br />
+            <h2 id="titcontactos2">Selecciona la opción deseada</h2>
+            <input type="radio" name="opcont" value="A" class="rbtnc" ng-model="dirctl.perAction">Alta de Contacto<br />
+            <input type="radio" name="opcont" value="U" class="rbtnc" ng-model="dirctl.perAction">Actualización de Contacto (previamente seleccionado en Directorio)<br />
+            <input type="radio" name="opcont" value="D" class="rbtnc" ng-model="dirctl.perAction">Baja de Contacto (previamente seleccionado en Directorio)<br />
+            <input type="button" value="Ejecuta Acción" id="botonper2" ng-click="dirctl.perUpdate()" class="botones" />
+        </div>
+        <div id="datosper">
+            <form id="formPer" name="formPer">
+
+                <p id="peretiqnomap" class="etiqper">Apellido Paterno: </p>
+                <input type="text" id="perNomAP" name="NomAP" class="datosper rowc2" ng-model="dirctl.per2up.NomAP">
+
+                <p id="peretiqnomam" class="etiqper">Apellido Materno: </p>
+                <input type="text" id="perNomAM" name="NomAM" class="datosper rowc2" ng-model="dirctl.per2up.NomAM"><br />
+                <p id="peretiqnom1" class="etiqper">Primer Nombre: </p>
+                <input type="text" id="perNom1" name="Nom1" class="datosper rowc2" ng-model="dirctl.per2up.Nom1">
+                <p id="peretiqnom2" class="etiqper">Segundo Nombre: </p>
+                <input type="text" id="perNom2" name="Nom2" class="datosper rowc2" ng-model="dirctl.per2up.Nom2"><br />
+
+                <p id="peretiqtel4" class="etiqper">Celular: </p>
+                <input type="text" id="pertel4" name="TelCel" class="datosper rowc2" ng-model="dirctl.per2up.TelCel">
+                <p id="peretiqorg" class="etiqper">Organización: </p>
+                <input type="text" id="perorg" name="Organiza" class="datosper rowc2" ng-model="dirctl.per2up.Organiza"><br />
+                <p id="peretiqtel1" class="etiqper">Tel.directo: </p>
+                <input type="text" id="pertel1" name="TelDirecto" class="datosper rowc2" ng-model="dirctl.per2up.TelDirecto">
+                <p id="peretiqtel2" class="etiqper">Ext: </p>
+                <input type="text" id="pertel2" name="Extension" class="datosper rowc2" ng-model="dirctl.per2up.Extension"><br />
+                <p id="peretiqtel3" class="etiqper">Tel.casa: </p>
+                <input type="text" id="pertel3" name="TelCasa" class="datosper rowc2" ng-model="dirctl.per2up.TelCasa">
+                <p id="peretiqfax" class="etiqper">Fax: </p>
+                <input type="text" id="perfax" name="FaxDirecto" class="datosper rowc2" ng-model="dirctl.per2up.FaxDirecto"><br />
+
+                <p id="peretiqmail" class="etiqper">Mail: </p>
+                <input type="text" id="permail" name="eMail" class="datosper rowc1" ng-model="dirctl.per2up.eMail">
+                <p id="peretiquesto" class="etiqper">Puesto: </p>
+                <input type="text" id="perpuesto" name="Puesto" class="datosper rowc1" ng-model="dirctl.per2up.Puesto"><br />
+                <p id="peretiqcoment" class="etiqper">Comentarios: </p>
+                <input type="text" id="percoment" name="Comentarios" class="datosper rowc1" ng-model="dirctl.per2up.Comentarios"><br />
+                <input type="text" id="idPer" name="idPer" class="datosocultos" ng-model="dirctl.per2up.idPer">
+                <input type="text" id="accion" name="accion" class="datosocultos" ng-model="dirctl.per2up.accion">
+    </form>
+</div>
+</section>
+<section id="secorg" class="tabContent" ng-show="dirctl.orgtab">
+    <div id="oporg">
+        <h1 id="titorg1">Actualización de Organizaciones</h1><br />
+        <h2 id="titorg2">Selecciona la opción deseada</h2>
+        <input type="radio" name="oporg1" value="A" class="rbtno" />Alta de Organización<br />
+        <input type="radio" name="oporg1" value="U" class="rbtno" />Actualización de Organización (previamente seleccionado en Directorio)<br />
+        <input type="radio" name="oporg1" value="D" class="rbtno" />Baja de Organización (previamente seleccionado en Directorio)<br />
+        <input type="button" value="Ejecuta Acción" id="botonorg2" onclick="btnSendOrg()" class="botones" />
+        <br /><br />
+    </div>
+    <div id="datosorg">
+        <form id="formOrg" name="formOrg" novalidate>
+          <div class="validabox">
+            <p  class="validaetiq">Organización: </p>
+            <input type="text"  class="datosorg validarowc2" name="Organiza" ng-model="dirctl.org2up.Organiza"
+            required  minlength="2"  ng-maxlength="10">
+            <p class="validamen" ng-show="(formOrg.Organiza.$error.minlength || formOrg.Organiza.$error.required)
+             && formOrg.Organiza.$touched">
+            Organización debe ser de al menos 4 caracteres
+            </p>
+            <p class="validamen" ng-show="formOrg.Organiza.$error.maxlength && formOrg.Organiza.$touched">
+            Organización debe ser no mayor de 10 caracteres
+            </p>
+          </div>
+
+            <p id="orgetiqnombre" class="etiqorg">Nombre Completo: </p>
+            <input type="text" id="orgnombrecompleto" class="datosorg rowc1" name="Nombre" ng-model="dirctl.org2up.Nombre"><br />
+
+            <p id="orgetiqtel1" class="etiqorg">Teléfono1: </p>
+            <input type="text" id="orgtel1" class="datosorg rowc2" name="Tel1" ng-model="dirctl.org2up.Tel1">
+            <p id="orgetiqtel2" class="etiqorg">Teléfono2: </p>
+            <input type="text" id="orgtel2" class="datosorg rowc2" name="Tel2" ng-model="dirctl.org2up.Tel2"><br />
+
+            <p id="orgetiqfax1" class="etiqorg">Fax1: </p>
+            <input type="text" id="orgfax1" class="datosorg rowc2" name="Fax1" ng-model="dirctl.org2up.Fax1">
+            <p id="orgetiqfax2" class="etiqorg">Fax2: </p>
+            <input type="text" id="orgfax2" class="datosorg rowc2" name="Fax2" ng-model="dirctl.org2up.Fax2"><br />
+
+            <p id="orgetiqweb" class="etiqorg">Web Site: </p>
+            <input type="text" id="orgweb" class="datosorg rowc1" name="website" ng-model="dirctl.org2up.website"><br />
+            <p id="orgetiqcalle" class="etiqorg">Calle y número: </p>
+            <input type="text" id="orgcalle" class="datosorg rowc1" name="Calle" ng-model="dirctl.org2up.Calle"><br />
+            <p id="orgetiqCol" class="etiqorg">Colonia: </p>
+            <input type="text" id="orgcolonia" class="datosorg rowc1" name="Colonia" ng-model="dirctl.org2up.Colonia"><br />
+
+            <p id="orgetiqloc" class="etiqorg">Localidad: </p>
+            <input type="text" id="orgloc" class="datosorg rowc2" name="Localidad" ng-model="dirctl.org2up.Localidad">
+            <p id="orgetiqestado" class="etiqorg">Estado: </p>
+            <input type="text" id="orgestado" class="datosorg rowc2" name="Estado" ng-model="dirctl.org2up.Estado"><br />
+
+            <p id="orgetiqcp" class="etiqorg">CP: </p>
+            <input type="text" id="orgcp" class="datosorg rowc2" name="CP" ng-model="dirctl.org2up.CP">
+            <p id="orgetiqpais" class="etiqorg">País: </p>
+            <input type="text" id="orgpais" class="datosorg rowc2" name="Pais" ng-model="dirctl.org2up.Pais"><br />
+
+            <p id="orgetiqgiro" class="etiqorg">Giro: </p>
+            <input type="text" id="orggiro" class="datosorg rowc1" name="Giro" ng-model="dirctl.org2up.Giro"><br />
+
+            <input type="text" id="orgaccion" name="accion" class="datosocultos" ng-model="dirctl.org2up.accion">
+    </form>
+</div>
+
+</section>
+        <footer id="pie1"></footer>
+</div>
+</body>
+</html>

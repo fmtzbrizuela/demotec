@@ -1,0 +1,314 @@
+﻿<!DOCTYPE html >
+<html>
+	<head>
+	   <title>Isandra Ricos Postres - SPA</title>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,shrink-to-fit=no">
+		<meta NAME="DESCRIPTION" CONTENT="Muestra de Pasteles y postres para eventos">
+		<meta NAME="KEYWORDS" CONTENT="Pasteles,Postres">
+		<meta NAME="AUTHOR" CONTENT="Francisco Martinez Brizuela">
+		<link rel="stylesheet" href="../libs/bootstrap.min.css" >             
+		<link href="protoprod.css" rel="stylesheet" media="screen">
+	<!-- Programa name.html     -->
+		<script>
+		var objProductos = {};
+		var objIsandra = {};
+		objIsandra.moduloActivo = 0;		// Modulo de programa activo, 0 = Inicio, 1 = Productos, 2 = Especiales, 3 = Contacto
+		objIsandra.fotos = new Array();
+		objIsandra.secuencia = 0;
+		objIsandra.LIMITE = 3;				// Número de fotos a desplegar en inicio
+		objIsandra.timeDelay = 5000;		// Tiempo de espera entre fotos
+		objIsandra.bgActive = '#eeeeee';	// background active
+		objIsandra.bgNormal = '#cccccc';	// background normal
+		// Url de donde se carga via ajax el archivo de productos.txt que tiene la descripción de productos
+		// Recuerde: se debe cargar del mismo host del que se cargo la página.
+		objIsandra.urlProductos = 'http://isandra.orgfree.com/productos.txt';
+		// objIsandra.urlProductos = 'http://localhost/isandra/productos.txt';
+
+		(function(obj){
+			obj.setActive = function(numprog) {
+			// Pone el background de Activo al link con el ordinal de numprog
+			// y al resto les pone el background normal
+				objIsandra.moduloActivo = numprog;
+				var links = document.getElementById("navmenu").getElementsByTagName("li");
+				for(var i = 0; i < links.length; i++){
+					if(i == numprog) {	links[i].style.background = objIsandra.bgActive;}
+					else {links[i].style.background = objIsandra.bgNormal;}
+				}
+				}
+			// Cada 5 segundos cambia las imagenes del modulo Inicia
+			obj.CambiaImagen = function(){
+				if(objIsandra.moduloActivo != 0) {return;}		// sale si no se esta ejecutando modulo de inicio
+				document.getElementById("Img2").src = objIsandra.fotos[objIsandra.secuencia].src;
+				objIsandra.secuencia += 1;
+				if (objIsandra.secuencia >= objIsandra.LIMITE) objIsandra.secuencia = 0;
+				setTimeout("objIsandra.CambiaImagen()", objIsandra.timeDelay);  // pone el tiempo para cambiar
+				return true;
+				}
+			// LLena el arreglo de fotos para el modulo Inicia
+			obj.InicializaFotos = function() {		
+				var ix = 0;
+				objIsandra.fotos[ix] = new Image(792,356);  // 792,356
+				objIsandra.fotos[ix].src = "Imagenes/Isandra-cuerpo1.jpg";
+				ix = 1;
+				objIsandra.fotos[ix] = new Image(792,356);
+				objIsandra.fotos[ix].src = "Imagenes/Isandra-cuerpo2.jpg";
+				ix = 2;
+				objIsandra.fotos[ix] = new Image(792,356);
+				objIsandra.fotos[ix].src = "Imagenes/Isandra-cuerpo3.jpg";
+				objIsandra.CambiaImagen();
+				}
+			// Cada 5 segundos cambia las imagenes del modulo Especiales
+			obj.CambiaImagen2 = function() {
+				if(objIsandra.moduloActivo != 2) {return;}		// sale si no se esta ejecutando modulo de Especiales
+				document.getElementById("Img4").src = document.getElementById("Img3").src
+				document.getElementById("Img3").src = objIsandra.fotos[objIsandra.secuencia].src;
+				objIsandra.secuencia += 1;
+				if (objIsandra.secuencia >= objIsandra.LIMITE) objIsandra.secuencia = 0;
+				setTimeout("objIsandra.CambiaImagen2()",  objIsandra.timeDelay);  // pone el tiempo para cambiar
+				return true;
+				}
+			// LLena el arreglo con imagenes que serán desplegadas en el moduloEspeciales
+			obj.InicializaFotos2 = function() {
+				var ix = 0;
+				objIsandra.fotos[ix] = new Image(320,240);
+				objIsandra.fotos[ix].src = "Imagenes/P-1com.jpg";
+				ix = 1;
+				objIsandra.fotos[ix] = new Image(320,240);
+				objIsandra.fotos[ix].src = "Imagenes/Pprincesa1.jpg";
+				ix = 2;
+				objIsandra.fotos[ix] = new Image(320,240);
+				objIsandra.fotos[ix].src = "Imagenes/P-quequitos.jpg";
+				ix = 3;
+				objIsandra.fotos[ix] = new Image(320,240);
+				objIsandra.fotos[ix].src = "Imagenes/mesa80a.jpg";
+				ix = 4;
+				objIsandra.fotos[ix] = new Image(320,240);
+				objIsandra.fotos[ix].src = "Imagenes/Pblanco.jpg";
+				ix = 5;
+				objIsandra.fotos[ix] = new Image(320,240);
+				objIsandra.fotos[ix].src = "Imagenes/P-1com2.jpg";
+				ix = 6;
+				objIsandra.fotos[ix] = new Image(320,240);
+				objIsandra.fotos[ix].src = "Imagenes/Pboda.jpg";
+				objIsandra.CambiaImagen2();
+				}
+
+				// Funcion que usara ajax para ejecutar las clases que pasaran datos
+				// Cuando leemos, recibimos los datoss en formato JSON
+				// Parametros: url = dirección en el server a ejecutar
+				//             callback = función que se ejecutara al terminar para procesar la respuesta
+				//             postData = datos a enviar con un POST, en caso de no querer un post, debe omitirse
+				// Ejemplos: Para llamar con GET:  loadurs(url, callback);
+				//				Si llamamos con GET y queremos enviar parametros, estos deben ir en el url en la forma:
+				//				url+?par1=val1&par2=val2  Ej: "demo_get2.asp?fname=Henry&lname=Ford"
+				//           Para llamar con POST: loadurs(url, callback, postData); donde postData debe estar en formato JSON
+				//				Ej:  {"idPer":"1","Organiza":"ORACLE","NomAP":"Aguilar","NomAM":"De la rosa","Nom1":"Oscar","Nom2":""}
+				//				Nota: si queremos mandar texto, o XML hay que cambiar el Content-type en el setRequestHeader.
+			obj.loadurls = function(url, callback, postData) {
+					var xmlhttp = new XMLHttpRequest();
+					var metodo = (postData) ? "POST" : "GET";
+					xmlhttp.onreadystatechange = function () {
+						if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+							callback(xmlhttp.responseText);
+						}
+					}
+					xmlhttp.open(metodo, url, true);
+					if (metodo == "POST") {
+						xmlhttp.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+						xmlhttp.setRequestHeader("Content-length", postData.length);
+						xmlhttp.setRequestHeader("Connection", "close");
+					}
+					xmlhttp.send(postData);
+				}
+				// función de callback al llamado a Ajax, que convierte texto a objeto
+			obj.convTxt2JSON = function(datos){
+					var texto = '{"Prods":' + datos + '}';
+					objProductos = JSON.parse(texto);
+				}
+				
+				// Forma el html para desplegar los productos contenidos en el objeto prods.
+			obj.DespliegaProd = function(nprod){
+				var prods = objProductos.Prods;
+				var div1 = '<div class="col-lg-4 col-md-6 col-sm-6  col-xs-12  bordes">';
+				var fig1 = '<figure class="figura"><img  alt="ISandra" height="240" width="320" class="img-rounded" ';
+				var div2 = '<div class="cuadro2A"> ';
+				var inp1 = '<input type="text"  class="prod" value=';
+				var par1 = '<p   class="desc2" >';
+				var span1 = '<span  class="precio" >';
+
+				var htmltx = '';
+				for (var i = 0; i < prods.length; i++){
+					htmltx += div1;
+					htmltx += fig1 + 'src="' + prods[i].Img + '"></figure> ';
+					htmltx += div2;
+					htmltx += inp1 + '"' + prods[i].nombre + '"> ';
+					htmltx += par1 + prods[i].desc + span1 + prods[i].precio + '</span></p>';
+					htmltx += '</div></div>';
+				}
+				document.getElementById('main-content').innerHTML = htmltx;
+			}
+			// Muestra el modulo Inicio al desplegarlo al cuerpo del programa	
+			obj.showInicio = function(){
+				objIsandra.secuencia = 0;
+				objIsandra.LIMITE = 3;
+				document.getElementById('cuerpo').innerHTML = objIsandra.htmlInicio;
+				objIsandra.setActive(0);
+				objIsandra.InicializaFotos();
+				}
+			// Muestra el modulo Productos al desplegarlo al cuerpo del programa
+			obj.showProductos = function() {
+				if (objProductos.Prods == undefined || objProductos.Prods == null){
+					objIsandra.showIconDelay();
+					setTimeout("objIsandra.showProductos()", 500);  // Checa cada medio segundo
+					return;
+				}
+				document.getElementById('cuerpo').innerHTML = objIsandra.htmlProductos;
+				objIsandra.DespliegaProd();
+				objIsandra.setActive(1);
+			}
+			obj.showIconDelay = function(){
+				document.getElementById('cuerpo').innerHTML = 
+				'<div class="row"><img src="imagenes/ajax-loader.gif" width="150" height="150" style="display: block; margin: auto"></div>';
+			}
+			// Muestra el modulo Especiales al desplegarlo al cuerpo del programa
+			obj.showEspeciales = function() {
+				objIsandra.secuencia = 0;
+				objIsandra.LIMITE = 7;
+				document.getElementById('cuerpo').innerHTML = objIsandra.htmlEspeciales;
+				objIsandra.setActive(2);
+				objIsandra.InicializaFotos2();
+			}
+			// Muestra el modulo Contacto al desplegarlo al cuerpo del programa
+			obj.showContacto = function() {
+				document.getElementById('cuerpo').innerHTML = objIsandra.htmlContacto;
+				objIsandra.DespliegaProd();
+				objIsandra.setActive(3);
+			}
+
+			obj.funDeInicio = function(){
+				objIsandra.loadurls(objIsandra.urlProductos, objIsandra.convTxt2JSON);			// Carga archivo de Productos.txt
+				objIsandra.htmlInicio = document.getElementById('inicio').innerHTML;
+				objIsandra.htmlProductos = document.getElementById('productos').innerHTML;
+				objIsandra.htmlEspeciales = document.getElementById('especiales').innerHTML;
+				objIsandra.htmlContacto = document.getElementById('contacto').innerHTML;
+				objIsandra.showInicio();
+			}
+		})(objIsandra);
+
+		</script>
+		<style>
+		#inicio, #productos, #especiales, #contacto{display: none;}
+
+		</style>
+	</head>
+	<body onload="objIsandra.funDeInicio()">
+		<div class="bigbox1">
+			<div class="container">
+			<div class="row">
+						<div class="col-lg-12 col-md-12 col-sm-12  col-xs-12  bordes">
+			<header>
+					<p id="tit1"> <a href="index.htm"><img id="img1" alt="Logo" src=Imagenes/pastelillo1.png ></a>ISandra  Ricos Postres </p>
+			</header>
+			<nav>
+				<ul id="navmenu" class="nav nav-tabs" >
+					<li onclick="objIsandra.showInicio()" id="liinicio" class="list-group-item"><a   href="#">INICIO</a> </li>
+					<li onclick="objIsandra.showProductos()" id="liproductos" class="list-group-item"><a   href="#">PRODUCTOS</a></li>
+					<li onclick="objIsandra.showEspeciales()" class="list-group-item"><a   href="#">ESPECIALES</a> </li>
+					<li onclick="objIsandra.showContacto()" class="list-group-item"><a   href="#">CONTÁCTO</a></li>
+				</ul>
+			</nav>
+			</div>
+			</div>
+			</div>
+			
+			<div id="cuerpo" class="container">
+						<div class="row">
+							<div class="col-lg-12 col-md-12 col-sm-12  col-xs-12  bordes">
+								<article id="art1">
+									<img id="Img2" alt="ISandra" src="Imagenes/Isandra-cuerpo1.jpg" />
+								</article>
+							</div>
+						</div>
+			</div>
+			
+			<div class="container">
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12  col-xs-12  bordes">
+				<footer id="pie1">
+				<p id="pie1r1">ISandra  Ricos Postres</p>
+				<p id="pie1r2">Estamos para servirlos en los telefonos: (81)8358-1387 y (81)1133-2203</p>
+				<p id="pie1r3">Monterrey, N.L., México</p>
+				</footer>
+				</div>
+				</div>
+			</div>
+		</div>	
+		
+		<!--  Cuerpo de Inicio   -->
+		<div id="inicio" class="container">
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12  col-xs-12  bordes">
+				<article id="art1">
+					<img id="Img2" alt="ISandra" src="Imagenes/Isandra-cuerpo1.jpg" />
+				</article>
+			</div>
+		</div>
+		</div>
+		<!--  Fin de Inicio   -->
+		
+		<!--  Cuerpo de Producto   -->
+		<div id="productos" class="container">
+		<div class="row ">
+			<div id="main-content"></div>
+		</div>
+		</div>
+		<!--  Fin de Producto   -->
+
+		<!--  Cuerpo de Especiales   -->
+		<div id="especiales" class="container">
+			<div class="row">
+				<div class="col-lg-6 col-md-6 col-sm-6  col-xs-12  bordes">
+		<figure id="fig3">
+			<img id="Img3" alt="ISandra" src="Imagenes/Payasito.jpg" />
+		</figure>
+		</div>
+		<div class="col-lg-6 col-md-6 col-sm-6  col-xs-12 bordes">
+		<figure id="fig4">
+			<img id="Img4" alt="ISandra" src="Imagenes/Payasito.jpg" />
+		 </figure>
+			</div>
+	
+				<div class="col-lg-12 col-md-12 col-sm-12  col-xs-12  bordes">
+			<h4  class="mensaje1"  >Podemos hacer los pasteles y postres de acuerdo a las caracteristicas de su evento, ya sea fiestas infantiles, primera comunión, quince años, etc. <br>Contáctenos y con todo gusto lo atenderemos.</h4><br>
+			</div>
+			</div>
+		</div>
+		<!--  Fin de Especiales   -->
+
+		<!--  Cuerpo de Contacto  -->
+		<div class="container" id="contacto">
+		<div class="row">
+				<div class="col-lg-6 col-md-6 col-sm-6  col-xs-12  bordes">
+						<figure id="fig5">
+							<img id="Img7" alt="ISandra" src="Imagenes/logo320.jpg"  />
+						</figure>
+				
+					<br>
+					<h4 class="mensaje1" >Dirección:<br>&nbsp;&nbsp;&nbsp;Sevilla 111-A
+					<br>&nbsp;&nbsp;&nbsp;Col. Altavista<br>&nbsp;&nbsp;&nbsp;Monterrey, N.L. México</h4>
+				
+				</div>
+				<div class="col-lg-6 col-md-6 col-sm-6  col-xs-12  bordes">
+					<figure id="fig6">
+						<a id="mapa" href="https://www.google.com/maps/place/Isandra+Ricos+Postres/@25.6452678,-100.2901085,17z/data=!3m1!4b1!4m5!3m4!1s0x8662bfbc78f84427:0x5d37e57a78f23739!8m2!3d25.6452678!4d-100.2879198?hl=es-419" >
+							<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3596.784773494369!2d-100.29010848498146!3d25.645267783689782!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8662bfbc78f84427%3A0x5d37e57a78f23739!2sIsandra+Ricos+Postres!5e0!3m2!1ses-419!2smx!4v1509599059671" width="100%" height="250" frameborder="0" style="border:0" allowfullscreen></iframe>
+						</a>
+						</figure>
+					<p id="limpia">&nbsp;</p>
+				</div>
+				</div>
+		</div>		
+		<!--  Fin de Contacto  -->
+	</body>
+</html>

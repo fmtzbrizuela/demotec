@@ -1,0 +1,22 @@
+* {margin: 0;}
+#containermain {margin-left: 10px;}
+h1 {font-size: 0.9em; margin-top: 10px; margin-bottom: 10px;}
+.etiq, .etiq2, .etiq3 {font-size: 0.7em;}
+
+.box1 {width: 90%; height: 50px; float: left;}
+.box2 {width: 90%; height: 50px; }
+#containertable { display: none; clear: left; }
+#tabladetalle {border: 1px solid blue; font-size: 0.6em; width: 90%; margin-left: 10px;}
+th, td {width: 18%; border: 1px solid orange;}
+
+@media(min-width: 600px) {
+    #containermain {width: 40%;}
+    .box1 {width: 40%; height: 50px; float: left;}
+    .box2 {width: 90%; height: 50px; }
+    .datos {width: 80%}
+    #containertable {display: none; clear: left; }
+    #tabladetalle {border: 1px solid blue; font-size: 0.6em; width: 40%;
+         margin-left: 10px; clear: left; }
+    th, td {width: 18%; border: 1px solid orange;}
+
+}
